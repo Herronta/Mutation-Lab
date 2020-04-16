@@ -8,7 +8,7 @@ class Mutation_Lab_JUnitTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		fail("Changed a thing");
 	}
 
 }
