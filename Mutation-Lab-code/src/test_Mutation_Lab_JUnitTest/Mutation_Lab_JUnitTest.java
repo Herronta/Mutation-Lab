@@ -2,9 +2,15 @@ package test_Mutation_Lab_JUnitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -16,11 +22,11 @@ import business_logic.Selection;
 import business_logic.Phaser;
 
 class Mutation_Lab_JUnitTest {
-
 	
 	@Test
 
 	//testing the first few cases
+	//There is a check for the size earlier in the code so that it
 	void testPhaserValid() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -43,7 +49,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		selection.SelectionBluePhaser();
+		if(selection.GetSelectionBlueGroupSize() == 0) {
+			selection.SelectionBluePhaser();
+		}
 		assertEquals(selection.GetSelectionBlueGroupSize(), 5);
 	}
 	@Test
@@ -51,7 +59,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		selection.SelectionRedPhaser();
+		if(selection.GetSelectionRedGroupSize() == 0) {
+			selection.SelectionRedPhaser();
+		}
 		assertEquals(selection.GetSelectionRedGroupSize(), 15);
 	}
 	@Test
@@ -59,7 +69,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_NortheastPhaser();
+		if(district.GetNortheastGroupSize() == 0) {
+			district.Region_NortheastPhaser();
+		}
 		assertEquals(district.GetNortheastGroupSize(), 4);	
 	}
 	@Test
@@ -67,7 +79,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_MidwestPhaser();
+		if(district.GetMidwestGroupSize() == 0) {
+			district.Region_MidwestPhaser();
+		}
 		assertEquals(district.GetMidwestGroupSize(), 5);	
 	}
 	@Test
@@ -75,7 +89,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_SouthPhaser();
+		if(district.GetSouthGroupSize() == 0){
+			district.Region_SouthPhaser();
+		}
 		assertEquals(district.GetSouthGroupSize(), 7);	
 	}
 	@Test
@@ -83,7 +99,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_WestPhaser();
+		if(district.GetWestGroupSize() == 0) {
+			district.Region_WestPhaser();
+		}
 		assertEquals(district.GetWestGroupSize(), 4);	
 	}
 	
@@ -111,7 +129,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		selection.SelectionBluePhaser();
+		if(selection.GetSelectionBlueGroupSize() == 0) {
+			selection.SelectionBluePhaser();
+		}
 		assertEquals(selection.GetSelectionBlueGroupSize() + 1, 5);
 	}
 	@Test
@@ -119,7 +139,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		selection.SelectionRedPhaser();
+		if(selection.GetSelectionRedGroupSize() == 0) {
+			selection.SelectionRedPhaser();
+		}
 		assertEquals(selection.GetSelectionRedGroupSize() + 1, 15);
 	}
 	@Test
@@ -127,7 +149,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_NortheastPhaser();
+		if(district.GetNortheastGroupSize() == 0) {
+			district.Region_NortheastPhaser();
+		}
 		assertEquals(district.GetNortheastGroupSize() + 1, 4);	
 	}
 	@Test
@@ -135,7 +159,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_MidwestPhaser();
+		if(district.GetMidwestGroupSize() == 0) {
+			district.Region_MidwestPhaser();
+		}
 		assertEquals(district.GetMidwestGroupSize() + 1, 5);	
 	}
 	@Test
@@ -143,7 +169,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_SouthPhaser();
+		if(district.GetSouthGroupSize() == 0){
+			district.Region_SouthPhaser();
+		}
 		assertEquals(district.GetSouthGroupSize() + 1, 7);	
 	}
 	@Test
@@ -151,7 +179,9 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
-		district.Region_WestPhaser();
+		if(district.GetWestGroupSize() == 0) {
+			district.Region_WestPhaser();
+		}
 		assertEquals(district.GetWestGroupSize() + 1, 4);	
 	}
 }
