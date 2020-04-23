@@ -30,6 +30,7 @@ class Mutation_Lab_JUnitTest {
 		assertEquals(valid.GetSize(), 20);
 		
 	}
+	@Test
 	void testPhaserInvalid() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -37,6 +38,7 @@ class Mutation_Lab_JUnitTest {
 		Phaser invalid=DZ.GetPhaser("invalid");	
 		assertEquals(invalid.GetSize(), 10);
 	}
+	@Test
 	void testBlueGroup() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -44,6 +46,7 @@ class Mutation_Lab_JUnitTest {
 		selection.SelectionBluePhaser();
 		assertEquals(selection.GetSelectionBlueGroupSize(), 5);
 	}
+	@Test
 	void testRedGroup() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -51,6 +54,7 @@ class Mutation_Lab_JUnitTest {
 		selection.SelectionRedPhaser();
 		assertEquals(selection.GetSelectionRedGroupSize(), 15);
 	}
+	@Test
 	void testNE() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -58,6 +62,7 @@ class Mutation_Lab_JUnitTest {
 		district.Region_NortheastPhaser();
 		assertEquals(district.GetNortheastGroupSize(), 4);	
 	}
+	@Test
 	void testMidW() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -65,6 +70,7 @@ class Mutation_Lab_JUnitTest {
 		district.Region_MidwestPhaser();
 		assertEquals(district.GetMidwestGroupSize(), 5);	
 	}
+	@Test
 	void testS() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -72,6 +78,7 @@ class Mutation_Lab_JUnitTest {
 		district.Region_SouthPhaser();
 		assertEquals(district.GetSouthGroupSize(), 7);	
 	}
+	@Test
 	void testW() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
@@ -81,63 +88,70 @@ class Mutation_Lab_JUnitTest {
 	}
 	
 //Mutations? I added 1 to each value since that may be a mutation or a different version of an original test
-	
-	void testPhaserValidM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testPhaserValidM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		
 		DistinguishZipCodeFactory DZ=new DistinguishZipCodeFactory();
 		Phaser valid=DZ.GetPhaser("valid");
-		assertEquals(valid.GetSize() + 1, 21);
+		assertEquals(valid.GetSize() + 1, 20);
 		
 	}
-	void testPhaserInvalidM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testPhaserInvalidM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		DistinguishZipCodeFactory DZ=new DistinguishZipCodeFactory();
 		Phaser invalid=DZ.GetPhaser("invalid");	
-		assertEquals(invalid.GetSize() + 1, 11);
+		assertEquals(invalid.GetSize() + 1, 10);
 	}
-	void testBlueGroupM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testBlueGroupM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
 		selection.SelectionBluePhaser();
-		assertEquals(selection.GetSelectionBlueGroupSize() + 1, 6);
+		assertEquals(selection.GetSelectionBlueGroupSize() + 1, 5);
 	}
-	void testRedGroupM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testRedGroupM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
 		selection.SelectionRedPhaser();
-		assertEquals(selection.GetSelectionRedGroupSize() + 1, 16);
+		assertEquals(selection.GetSelectionRedGroupSize() + 1, 15);
 	}
-	void testNEM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testNEM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
 		district.Region_NortheastPhaser();
-		assertEquals(district.GetNortheastGroupSize() + 1, 5);	
+		assertEquals(district.GetNortheastGroupSize() + 1, 4);	
 	}
-	void testMidWM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testMidWM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
 		district.Region_MidwestPhaser();
-		assertEquals(district.GetMidwestGroupSize() + 1, 6);	
+		assertEquals(district.GetMidwestGroupSize() + 1, 5);	
 	}
-	void testSM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testSM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
 		district.Region_SouthPhaser();
-		assertEquals(district.GetSouthGroupSize() + 1, 8);	
+		assertEquals(district.GetSouthGroupSize() + 1, 7);	
 	}
-	void testWM1() throws IOException, CloneNotSupportedException {
+	@Test
+	void testWM() throws IOException, CloneNotSupportedException {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
 		district.Region_WestPhaser();
-		assertEquals(district.GetWestGroupSize() + 1, 5);	
+		assertEquals(district.GetWestGroupSize() + 1, 4);	
 	}
 }
