@@ -59,7 +59,7 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		if(selection.GetSelectionRedGroupSize() == 0) {
+		if(selection.GetSelectionRedGroupSize() <= 0) {
 			selection.SelectionRedPhaser();
 		}
 		assertEquals(selection.GetSelectionRedGroupSize(), 15);
@@ -105,387 +105,43 @@ class Mutation_Lab_JUnitTest {
 		assertEquals(district.GetWestGroupSize(), 4);	
 	}
 	
-//Mutations? I added 1 to each value since that may be a mutation or a different version of an original test
-	@Test
-	void testPhaserValidM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		
-		DistinguishZipCodeFactory DZ=new DistinguishZipCodeFactory();
-		Phaser valid=DZ.GetPhaser("valid");
-		assertEquals(valid.GetSize() + 1, 20);
-		
-	}
-	@Test
-	void testPhaserInvalidM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		DistinguishZipCodeFactory DZ=new DistinguishZipCodeFactory();
-		Phaser invalid=DZ.GetPhaser("invalid");	
-		assertEquals(invalid.GetSize() + 1, 10);
-	}
-	@Test
-	void testBlueGroupM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		Selection selection =new Selection();
-		if(selection.GetSelectionBlueGroupSize() == 0) {
-			selection.SelectionBluePhaser();
-		}
-		assertEquals(selection.GetSelectionBlueGroupSize() + 1, 5);
-	}
-	@Test
-	void testRedGroupM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		Selection selection =new Selection();
-		if(selection.GetSelectionRedGroupSize() == 0) {
-			selection.SelectionRedPhaser();
-		}
-		assertEquals(selection.GetSelectionRedGroupSize() + 1, 15);
-	}
-	@Test
-	void testNEM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		District district=new District();
-		if(district.GetNortheastGroupSize() == 0) {
-			district.Region_NortheastPhaser();
-		}
-		assertEquals(district.GetNortheastGroupSize() + 1, 4);	
-	}
-	@Test
-	void testMidWM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		District district=new District();
-		if(district.GetMidwestGroupSize() == 0) {
-			district.Region_MidwestPhaser();
-		}
-		assertEquals(district.GetMidwestGroupSize() + 1, 5);	
-	}
-	@Test
-	void testSM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		District district=new District();
-		if(district.GetSouthGroupSize() == 0){
-			district.Region_SouthPhaser();
-		}
-		assertEquals(district.GetSouthGroupSize() + 1, 7);	
-	}
-	@Test
-	void testWM() throws IOException, CloneNotSupportedException {
-		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		FileIO.PersonalAddress_InputPath="input_sample3.txt";
-		District district=new District();
-		if(district.GetWestGroupSize() == 0) {
-			district.Region_WestPhaser();
-		}
-		assertEquals(district.GetWestGroupSize() + 1, 4);	
-	}
-	
-	@Test
-	 void validZipCodeTest1() throws IOException, CloneNotSupportedException{
-		Map<Integer, String> ValidZipCodeMap= new HashMap<Integer, String>();
-		FileIO f = FileIO.getInstance();
-		f.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		f.PersonalAddress_InputPath="input_sample3.txt";
-		Map<Integer, String> mapListAddress=f.GetPeopleInfo();
-		Map<String, String> mapListMatchList=f.GetOfficialZipcodeRangeInfo();
-		Set set = mapListAddress.entrySet();
-		Iterator itr = set.iterator();
-		
-		try { 
-			while (itr.hasNext()) {
-				Map.Entry entry = (Map.Entry) itr.next();
-				String[] address = entry.getValue().toString().split(",");
-				String zipCode = entry.getValue().toString().split(",")[address.length - 2].trim();
-				String stCode = entry.getValue().toString().split(",")[address.length - 3].trim();
-				int tempMin=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[0]);
-				int tempMax=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[1]);
-				int currentCode=Integer.parseInt(zipCode);
 
-				if(mapListMatchList.get(stCode)!=null) {
-					//Changed <= to <
-					if(currentCode >= tempMin && currentCode < tempMax) {
-						ValidZipCodeMap.put((Integer) entry.getKey(),entry.getValue().toString());
-						assertEquals(50, ValidZipCodeMap.size());
-					}
-				}
-			}
-		}
-		
-		catch(Exception e) {
-			System.out.println("ERROR INPUT, input file does not match correct form");
-		}
-	}
-	
 	@Test
-	 void validZipCodeTest2() throws IOException, CloneNotSupportedException{
-		Map<Integer, String> ValidZipCodeMap= new HashMap<Integer, String>();
+	 void testZReadFileIO() throws IOException, CloneNotSupportedException{
 		FileIO f = FileIO.getInstance();
-		f.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		f.PersonalAddress_InputPath="input_sample3.txt";
+		boolean i = false;
+		try {
+			f.ReadExcelSheet();
+			i = true;
+		}
+		catch(Exception e) {
+			i = false;
+			
+		}
+		assertEquals(i,true);
+		
+	}
+	@Test
+	 void testMap() throws IOException, CloneNotSupportedException{
+		FileIO f = FileIO.getInstance();
 		Map<Integer, String> mapListAddress=f.GetPeopleInfo();
-		Map<String, String> mapListMatchList=f.GetOfficialZipcodeRangeInfo();
 		Set set = mapListAddress.entrySet();
-		Iterator itr = set.iterator();
-		
-		try {
-			while (itr.hasNext()) {
-				Map.Entry entry = (Map.Entry) itr.next();
-				String[] address = entry.getValue().toString().split(",");
-				String zipCode = entry.getValue().toString().split(",")[address.length - 2].trim();
-				String stCode = entry.getValue().toString().split(",")[address.length - 3].trim();
-				int tempMin=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[0]);
-				int tempMax=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[1]);
-				int currentCode=Integer.parseInt(zipCode);
+		assertEquals(set.size(), 30);
+	}
+	@Test
+	void testStateName() throws IOException, CloneNotSupportedException{
+		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
+		FileIO.PersonalAddress_InputPath="input_sample3.txt";
+		District district=new District();
+		assertEquals(district.GetFullStateName("OH"), "Ohio");
+	}
+	@Test
+	void testDistrictPhaser() throws IOException, CloneNotSupportedException{
 
-				if(mapListMatchList.get(stCode)!=null) {
-					//Changed >= to >
-					if(currentCode > tempMin && currentCode <= tempMax) {
-						ValidZipCodeMap.put((Integer) entry.getKey(),entry.getValue().toString());
-						assertEquals(50, ValidZipCodeMap.size());
-					}
-				}
-			}
-		}
-		
-		catch(Exception e) {
-			System.out.println("ERROR INPUT, input file does not match correct form");
-		}
+		District district=new District();
+		assertEquals(district.GetDistrictGroupSize(), 0);
 	}
-	
-	@Test
-	void inValidZipCodeTest1() throws IOException, CloneNotSupportedException{
-		Map<Integer, String> InValidZipCodeMap= new HashMap<Integer, String>();
-		FileIO f = FileIO.getInstance();
-		f.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		f.PersonalAddress_InputPath="input_sample3.txt";
-		Map<Integer, String> mapListAddress=f.GetPeopleInfo();
-		Map<String, String> mapListMatchList=f.GetOfficialZipcodeRangeInfo();
-		Set set = mapListAddress.entrySet();// Converting to Set so that we can traverse
-		Iterator itr = set.iterator();
-		
-		try {
-			while (itr.hasNext()) {
-				Map.Entry entry = (Map.Entry) itr.next();
-				String[] address = entry.getValue().toString().split(",");
-				String zipCode = entry.getValue().toString().split(",")[address.length - 2].trim();
-				String stCode = entry.getValue().toString().split(",")[address.length - 3].trim();
-				int tempMin=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[0]);
-				int tempMax=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[1]);
-				int currentCode=Integer.parseInt(zipCode);
-				if(mapListMatchList.get(stCode)!=null) {
-					//Changed <= to <
-					if(!(currentCode >= tempMin && currentCode < tempMax)) {
-						InValidZipCodeMap.put((Integer) entry.getKey(),entry.getValue().toString());
-						assertEquals(50, InValidZipCodeMap.size());
-					}
-				}
-			}
-		}
-		
-		catch(Exception e) {
-			System.out.println("ERROR INPUT, input file does not match correct form");
-		}
-	}
-	
-	@Test
-	void inValidZipCodeTest2() throws IOException, CloneNotSupportedException{
-		Map<Integer, String> InValidZipCodeMap= new HashMap<Integer, String>();
-		FileIO f = FileIO.getInstance();
-		f.ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		f.PersonalAddress_InputPath="input_sample3.txt";
-		Map<Integer, String> mapListAddress=f.GetPeopleInfo();
-		Map<String, String> mapListMatchList=f.GetOfficialZipcodeRangeInfo();
-		Set set = mapListAddress.entrySet();// Converting to Set so that we can traverse
-		Iterator itr = set.iterator();
-		
-		try {
-			while (itr.hasNext()) {
-				Map.Entry entry = (Map.Entry) itr.next();
-				String[] address = entry.getValue().toString().split(",");
-				String zipCode = entry.getValue().toString().split(",")[address.length - 2].trim();
-				String stCode = entry.getValue().toString().split(",")[address.length - 3].trim();
-				int tempMin=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[0]);
-				int tempMax=Integer.parseInt(mapListMatchList.get(stCode).toString().split("_")[1]);
-				int currentCode=Integer.parseInt(zipCode);
-				if(mapListMatchList.get(stCode)!=null) {
-					//Changed >= to >
-					if(!(currentCode > tempMin && currentCode <= tempMax)) {
-						InValidZipCodeMap.put((Integer) entry.getKey(),entry.getValue().toString());
-						assertEquals(50, InValidZipCodeMap.size());
-					}
-				}
-			}
-		}
-		
-		catch(Exception e) {
-			System.out.println("ERROR INPUT, input file does not match correct form");
-		}
-	}
-	//
-	@Test
-	void testReadExcelSheet1() {
-		//Mutation: changed != to ==
-		Map<String, String> InputZipCodeRangeInfo = new HashMap<String, String>();
-		String ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		try  
-		{  
-			String path2=ZipCodeInfo_InputPath;
-			File f1 = new File(path2);   //creating a new file instance  
-			FileInputStream fis = new FileInputStream(f1);   //obtaining bytes from the file  
-			XSSFWorkbook wb = new XSSFWorkbook(fis);   
-			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-			for(int rowIndex=1;rowIndex<= sheet.getLastRowNum();rowIndex++) {
-				XSSFRow row =sheet.getRow(rowIndex);
-				assertEquals(true,row!=null); //Should always be grabbing a non-null row
-				if(row==null) { //Mutation: changed != to ==
-					Cell cellStFullName=row.getCell(1);
-					Cell cellSt=row.getCell(2);
-					Cell cellMin = row.getCell(3);
-					Cell cellMax = row.getCell(4);
-					String temp=null;		
-					try {
-						temp=(int)cellMin.getNumericCellValue()+"_"+(int)cellMax.getNumericCellValue()+"_"+cellStFullName.getStringCellValue().toString();
-					}catch(Exception e){
-						temp=cellMin+"_"+cellMax+"_"+cellStFullName.getStringCellValue().toString();
-					}
-					InputZipCodeRangeInfo.put(cellSt.toString(),temp);
-				}
-			}
-			wb.close();
-			assertEquals(51, InputZipCodeRangeInfo.size()); //Should always be 51 rows in excel sheet
-		}  
-		catch(Exception e)  
-		{  
-			e.printStackTrace(); 
-			System.out.println("Input file fail or can;t read, check FileIO class");
-			fail("Input file fail or can;t read, check FileIO class");
-		}
-	}
-	
-	@Test
-	void testReadExcelSheet2() {
-		//Mutation, changed rowIndex++ to rowIndex--
-		Map<String, String> InputZipCodeRangeInfo = new HashMap<String, String>();
-		String ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		try  
-		{  
-			String path2=ZipCodeInfo_InputPath;
-			File f1 = new File(path2);   //creating a new file instance  
-			FileInputStream fis = new FileInputStream(f1);   //obtaining bytes from the file  
-			XSSFWorkbook wb = new XSSFWorkbook(fis);   
-			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-			for(int rowIndex=1;rowIndex<= sheet.getLastRowNum();rowIndex--) { //Mutation, changed rowIndex++ to rowIndex--
-				XSSFRow row =sheet.getRow(rowIndex);
-				assertEquals(true,row!=null); //Should always be grabbing a non-null row
-				if(row!=null) {
-					Cell cellStFullName=row.getCell(1);
-					Cell cellSt=row.getCell(2);
-					Cell cellMin = row.getCell(3);
-					Cell cellMax = row.getCell(4);
-					String temp=null;		
-					try {
-						temp=(int)cellMin.getNumericCellValue()+"_"+(int)cellMax.getNumericCellValue()+"_"+cellStFullName.getStringCellValue().toString();
-					}catch(Exception e){
-						temp=cellMin+"_"+cellMax+"_"+cellStFullName.getStringCellValue().toString();
-					}
-					InputZipCodeRangeInfo.put(cellSt.toString(),temp);
-				}
-			}
-			wb.close();
-			assertEquals(51, InputZipCodeRangeInfo.size()); //Should always be 51 rows in excel sheet
-		}  
-		catch(Exception e)  
-		{  
-			e.printStackTrace(); 
-			System.out.println("Input file fail or can;t read, check FileIO class");
-			fail("Input file fail or can;t read, check FileIO class");
-		}
-	}
-	
-	@Test
-	void testReadExcelSheet3() {
-		//Mutation, changed <= to ==
-		Map<String, String> InputZipCodeRangeInfo = new HashMap<String, String>();
-		String ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		try  
-		{  
-			String path2=ZipCodeInfo_InputPath;
-			File f1 = new File(path2);   //creating a new file instance  
-			FileInputStream fis = new FileInputStream(f1);   //obtaining bytes from the file  
-			XSSFWorkbook wb = new XSSFWorkbook(fis);   
-			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-			for(int rowIndex=2; rowIndex== sheet.getLastRowNum();rowIndex++) { //Mutation, changed <= to ==
-				XSSFRow row =sheet.getRow(rowIndex);
-				assertEquals(true,row!=null); //Should always be grabbing a non-null row
-				if(row!=null) {
-					Cell cellStFullName=row.getCell(1);
-					Cell cellSt=row.getCell(2);
-					Cell cellMin = row.getCell(3);
-					Cell cellMax = row.getCell(4);
-					String temp=null;		
-					try {
-						temp=(int)cellMin.getNumericCellValue()+"_"+(int)cellMax.getNumericCellValue()+"_"+cellStFullName.getStringCellValue().toString();
-					}catch(Exception e){
-						temp=cellMin+"_"+cellMax+"_"+cellStFullName.getStringCellValue().toString();
-					}
-					InputZipCodeRangeInfo.put(cellSt.toString(),temp);
-				}
-			}
-			wb.close();
-			assertEquals(51, InputZipCodeRangeInfo.size()); //Should always be 51 rows in excel sheet
-		}  
-		catch(Exception e)  
-		{  
-			e.printStackTrace(); 
-			System.out.println("Input file fail or can;t read, check FileIO class");
-			fail("Input file fail or can;t read, check FileIO class");
-		}
-	}
-	
-	@Test
-	void testReadExcelSheet4() {
-		//Mutation, changed <= to >=
-		Map<String, String> InputZipCodeRangeInfo = new HashMap<String, String>();
-		String ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		try  
-		{  
-			String path2=ZipCodeInfo_InputPath;
-			File f1 = new File(path2);   //creating a new file instance  
-			FileInputStream fis = new FileInputStream(f1);   //obtaining bytes from the file  
-			XSSFWorkbook wb = new XSSFWorkbook(fis);   
-			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-			for(int rowIndex=1;rowIndex>= sheet.getLastRowNum();rowIndex++) { //Mutation, changed <= to >=
-				XSSFRow row =sheet.getRow(rowIndex);
-				assertEquals(true,row!=null); //Should always be grabbing a non-null row
-				if(row!=null) {
-					Cell cellStFullName=row.getCell(1);
-					Cell cellSt=row.getCell(2);
-					Cell cellMin = row.getCell(3);
-					Cell cellMax = row.getCell(4);
-					String temp=null;		
-					try {
-						temp=(int)cellMin.getNumericCellValue()+"_"+(int)cellMax.getNumericCellValue()+"_"+cellStFullName.getStringCellValue().toString();
-					}catch(Exception e){
-						temp=cellMin+"_"+cellMax+"_"+cellStFullName.getStringCellValue().toString();
-					}
-					InputZipCodeRangeInfo.put(cellSt.toString(),temp);
-				}
-			}
-			wb.close();
-			assertEquals(51, InputZipCodeRangeInfo.size()); //Should always be 51 rows in excel sheet
-		}  
-		catch(Exception e)  
-		{  
-			e.printStackTrace(); 
-			System.out.println("Input file fail or can;t read, check FileIO class");
-			fail("Input file fail or can;t read, check FileIO class");
-		}
-	}
+
 	
 	@Test
 	void testReadExcelSheet5() {
@@ -526,59 +182,6 @@ class Mutation_Lab_JUnitTest {
 			fail("Input file fail or can;t read, check FileIO class");
 		}
 	}
-	@Test
-	 void ReadTxtTest1() {
-		Map<Integer, String> InputPeopleInfo = new HashMap<Integer, String>();
-		int PersonUniqueID=0;
-		String path= "zipCode_info.xlsx";
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			String st;
-			List<String> tempList = new ArrayList<String>();
-			while ((st = br.readLine()) != null) {
-				tempList.add(st.trim().toString());
-			}
-			for (int i = 0; i < tempList.size(); i++) {
-				if (tempList.get(i).toString().contains("name:")) {
-					String tempAddress=tempList.get(i).trim()+","+tempList.get(i-1).trim();	//Changing tempList.get(i+1) to tempList.get(i-1)
-					assertEquals(tempList.get(i+1).trim(), tempList.get(i-1).trim());
-					InputPeopleInfo.put(PersonUniqueID, tempAddress);
-					PersonUniqueID++;				
-				}
-			}
-			br.close();
-	}
-		catch(Exception e){
-			e.printStackTrace();
-			System.out.println("Input file fail or cant read, check FileIO class");
-		}
-	}
-	
-	@Test
-	void ReadTxtTest2() {
-		Map<Integer, String> InputPeopleInfo = new HashMap<Integer, String>();
-		int PersonUniqueID=0;
-		String path= "zipCode_info.xlsx";
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			String st;
-			List<String> tempList = new ArrayList<String>();
-			while ((st = br.readLine()) != null) {
-				tempList.add(st.trim().toString());
-			}
-			for (int i = 0; i <= tempList.size(); i++) { //Changed (i < tempList.size() to i <= tempList.size())
-				assertEquals(tempList.size(), (tempList.size() + 1 )); // The (+ 1) is because it will have one more due to the <= 
-				if (tempList.get(i).toString().contains("name:")) {
-					String tempAddress=tempList.get(i).trim()+","+tempList.get(i+1).trim();	
-					InputPeopleInfo.put(PersonUniqueID, tempAddress);
-					PersonUniqueID++;				
-				}
-			}
-			br.close();
-	}
-		catch(Exception e){
-			e.printStackTrace();
-			System.out.println("Input file fail or cant read, check FileIO class");
-		}
-	}
+
+
 }
