@@ -28,6 +28,7 @@ class Mutation_Lab_JUnitTest {
 	//testing the first few cases
 	//There is a check for the size earlier in the code so that it
 	void testPhaserValid() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of valid zips
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		
@@ -38,6 +39,7 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testPhaserInvalid() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of invalid zips
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		DistinguishZipCodeFactory DZ=new DistinguishZipCodeFactory();
@@ -46,26 +48,54 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testBlueGroup() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of blue zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
+		boolean i = false;
 		if(selection.GetSelectionBlueGroupSize() == 0) {
 			selection.SelectionBluePhaser();
 		}
+		try {
+		selection.InfoPrinter(selection.SelectionBlueStateList);
+		i = true;
+		}
+		catch(Exception e) {
+			i = false;
+		}
+		assertEquals(selection.SelectionBlueGroup.isEmpty(), false);
 		assertEquals(selection.GetSelectionBlueGroupSize(), 5);
+		assertEquals(i, true);
+
+
 	}
 	@Test
 	void testRedGroup() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of red zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
+		boolean i = false;
 		if(selection.GetSelectionRedGroupSize() == 0) {
 			selection.SelectionPhaser("Red");
 		}
+		try {
+		selection.InfoPrinter(selection.SelectionRedStateList);
+		i = true;
+		}
+		catch(Exception e) {
+			i = false;
+		}
+		assertEquals(selection.SelectionRedGroup.isEmpty(), false);
 		assertEquals(selection.GetSelectionRedGroupSize(), 15);
+		assertEquals(i, true);
+
+		
 	}
+
 	@Test
 	void testNE() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of Northeast zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
@@ -76,6 +106,7 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testMidW() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of MidWest zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
@@ -86,6 +117,7 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testS() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of South zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
@@ -96,6 +128,7 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testW() throws IOException, CloneNotSupportedException {
+		//check if it can find the correct number of West zips and other related items
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
@@ -108,6 +141,9 @@ class Mutation_Lab_JUnitTest {
 
 	@Test
 	 void testZReadFileIO() throws IOException, CloneNotSupportedException{
+		//check if ReadIO functions without an error
+		//In all honestly, I don't think this tests anything, but in PIT, it increases the Line coverage, which
+		//I found to be interesting
 		FileIO f = FileIO.getInstance();
 		boolean i = false;
 		try {
@@ -123,13 +159,18 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	 void testMap() throws IOException, CloneNotSupportedException{
+		//check if ReadIO functions without an error with the map functions. Does also do a test of ReadExcelSheet
 		FileIO f = FileIO.getInstance();
 		Map<Integer, String> mapListAddress=f.GetPeopleInfo();
+		Map<String, String> mapZip=f.GetOfficialZipcodeRangeInfo();
 		Set set = mapListAddress.entrySet();
+		Set setB = mapZip.entrySet();
 		assertEquals(set.size(), 30);
+		assertEquals(setB.size(), 51);
 	}
 	@Test
 	void testStateName() throws IOException, CloneNotSupportedException{
+		//check if getFullStatename works
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		District district=new District();
@@ -137,17 +178,13 @@ class Mutation_Lab_JUnitTest {
 	}
 	@Test
 	void testDistrictPhaser() throws IOException, CloneNotSupportedException{
-
+		//check is District Phaser will return 0 if given the wrong value
 		District district=new District();
+		district.DistrictPhaser("Red");
 		assertEquals(district.GetDistrictGroupSize(), 0);
 	}
-	@Test
-	void testSelection() throws IOException, CloneNotSupportedException{
 
-		District district=new District();
-		assertEquals(district.GetDistrictGroupSize(), 0);
-	}
-	
+
 
 
 
