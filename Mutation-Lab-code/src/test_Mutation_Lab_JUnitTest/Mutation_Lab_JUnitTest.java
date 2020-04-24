@@ -59,8 +59,8 @@ class Mutation_Lab_JUnitTest {
 		FileIO.ZipCodeInfo_InputPath="zipCode_info.xlsx";
 		FileIO.PersonalAddress_InputPath="input_sample3.txt";
 		Selection selection =new Selection();
-		if(selection.GetSelectionRedGroupSize() <= 0) {
-			selection.SelectionRedPhaser();
+		if(selection.GetSelectionRedGroupSize() == 0) {
+			selection.SelectionPhaser("Red");
 		}
 		assertEquals(selection.GetSelectionRedGroupSize(), 15);
 	}
@@ -141,47 +141,14 @@ class Mutation_Lab_JUnitTest {
 		District district=new District();
 		assertEquals(district.GetDistrictGroupSize(), 0);
 	}
-
-	
 	@Test
-	void testReadExcelSheet5() {
-		//Mutation, changed rowIndex=1 to rowIndex=0, sheet.getLastRowNum() to sheet.getLastRowNum()-1, rowIndex to rowIndex+1
-		Map<String, String> InputZipCodeRangeInfo = new HashMap<String, String>();
-		String ZipCodeInfo_InputPath="zipCode_info.xlsx";
-		try  
-		{  
-			String path2=ZipCodeInfo_InputPath;
-			File f1 = new File(path2);   //creating a new file instance  
-			FileInputStream fis = new FileInputStream(f1);   //obtaining bytes from the file  
-			XSSFWorkbook wb = new XSSFWorkbook(fis);   
-			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
-			for(int rowIndex=0;rowIndex<= sheet.getLastRowNum()-1;rowIndex++) { //Mutation, changed rowIndex=1 to rowIndex=0, sheet.getLastRowNum() to sheet.getLastRowNum()-1
-				XSSFRow row =sheet.getRow(rowIndex+1); // Mutation, changed rowIndex to rowIndex+1
-				assertEquals(true,row!=null); //Should always be grabbing a non-null row
-				if(row!=null) {
-					Cell cellStFullName=row.getCell(1);
-					Cell cellSt=row.getCell(2);
-					Cell cellMin = row.getCell(3);
-					Cell cellMax = row.getCell(4);
-					String temp=null;		
-					try {
-						temp=(int)cellMin.getNumericCellValue()+"_"+(int)cellMax.getNumericCellValue()+"_"+cellStFullName.getStringCellValue().toString();
-					}catch(Exception e){
-						temp=cellMin+"_"+cellMax+"_"+cellStFullName.getStringCellValue().toString();
-					}
-					InputZipCodeRangeInfo.put(cellSt.toString(),temp);
-				}
-			}
-			wb.close();
-			assertEquals(51, InputZipCodeRangeInfo.size()); //Should always be 51 rows in excel sheet
-		}  
-		catch(Exception e)  
-		{  
-			e.printStackTrace(); 
-			System.out.println("Input file fail or can;t read, check FileIO class");
-			fail("Input file fail or can;t read, check FileIO class");
-		}
+	void testSelection() throws IOException, CloneNotSupportedException{
+
+		District district=new District();
+		assertEquals(district.GetDistrictGroupSize(), 0);
 	}
+	
+
 
 
 }
